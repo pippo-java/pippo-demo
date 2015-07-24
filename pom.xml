@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>ro.pippo</groupId>
+    <artifactId>pippo-demo-parent</artifactId>
+    <packaging>pom</packaging>
+    <version>0.7.0-SNAPSHOT</version>
+    <name>Pippo Demo Parent</name>
+    <description>Demo applications</description>   
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <connection>scm:git:https://github.com/decebals/pippo-demo.git</connection>
+        <developerConnection>scm:git:https://github.com/decebals/pippo-demo.git</developerConnection>
+        <url>git@github.com/decebals/pippo-demo.git</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>sonatype-nexus-snapshots</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>sonatype-nexus-staging</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+        </repository>
+    </distributionManagement>
+
+   <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.7</java.version>
+        <slf4j.version>1.7.7</slf4j.version>
+
+        <pippo.version>@{project.version}</pippo.version>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.5.1</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <optimize>true</optimize>
+                    <encoding>UTF-8</encoding>
+                    <showWarnings>true</showWarnings>
+                    <showDeprecation>true</showDeprecation>
+                </configuration>
+                <inherited>true</inherited>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5</version>
+                <configuration>
+                    <goals>deploy</goals>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                    <tagNameFormat>release-@{project.version}</tagNameFormat>
+                </configuration>
+            </plugin>
+        </plugins>
+
+        <resources>
+            <resource>
+                <filtering>false</filtering>
+                <directory>src/main/resources</directory>
+            </resource>
+            <resource>
+                <filtering>false</filtering>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**</include>
+                </includes>
+                <excludes>
+                    <exclude>**/*.java</exclude>
+                </excludes>
+            </resource>
+        </resources>
+
+        <testResources>
+            <testResource>
+                <filtering>false</filtering>
+                <directory>src/test/resources</directory>
+            </testResource>
+            <testResource>
+                <filtering>false</filtering>
+                <directory>src/test/java</directory>
+                <includes>
+                    <include>**</include>
+                </includes>
+                <excludes>
+                    <exclude>**/*.java</exclude>
+                </excludes>
+            </testResource>
+        </testResources>
+    </build>
+
+    <dependencies>
+        <!-- Logging -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+    </dependencies>
+
+    <modules>
+        <module>pippo-demo-common</module>
+        <module>pippo-demo-basic</module>
+        <module>pippo-demo-controller</module>
+        <module>pippo-demo-upload</module>
+        <module>pippo-demo-validation</module>
+        <module>pippo-demo-custom</module>
+        <module>pippo-demo-crud</module>
+        <module>pippo-demo-crudng</module>
+        <module>pippo-demo-spring</module>
+        <module>pippo-demo-guice</module>
+        <module>pippo-demo-weld</module>
+	    <module>pippo-demo-template</module>
+        <module>pippo-demo-session</module>
+        <module>pippo-demo-ajax</module>
+        <module>pippo-demo-css</module>
+    </modules>
+
+    <profiles>
+        <profile>
+            <id>main</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <packaging.type>jar</packaging.type>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>ro.pippo</groupId>
+                    <artifactId>pippo-jetty</artifactId>
+                    <version>${project.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>ro.pippo</groupId>
+                    <artifactId>pippo-jaxb</artifactId>
+                    <version>${project.version}</version>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>war</id>
+            <properties>
+                <packaging.type>war</packaging.type>
+            </properties>
+        </profile>
+    </profiles>
+</project>
