@@ -13,7 +13,7 @@
     <packaging>pom</packaging>
     <version>0.7.0-SNAPSHOT</version>
     <name>Pippo Demo Parent</name>
-    <description>Demo applications</description>   
+    <description>Demo applications</description>
 
     <licenses>
         <license>
@@ -41,7 +41,7 @@
         </repository>
     </distributionManagement>
 
-   <properties>
+    <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.7</java.version>
         <slf4j.version>1.7.7</slf4j.version>
@@ -158,10 +158,11 @@
         <module>pippo-demo-spring</module>
         <module>pippo-demo-guice</module>
         <module>pippo-demo-weld</module>
-	    <module>pippo-demo-template</module>
+        <module>pippo-demo-template</module>
         <module>pippo-demo-session</module>
         <module>pippo-demo-ajax</module>
         <module>pippo-demo-css</module>
+        <module>pippo-demo-crudko</module>
     </modules>
 
     <profiles>
@@ -193,4 +194,5 @@
             </properties>
         </profile>
     </profiles>
+
 </project>
