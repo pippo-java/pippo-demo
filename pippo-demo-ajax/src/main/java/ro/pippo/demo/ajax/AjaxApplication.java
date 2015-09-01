@@ -17,8 +17,6 @@ package ro.pippo.demo.ajax;
 
 import ro.pippo.core.Application;
 import ro.pippo.core.RedirectHandler;
-import ro.pippo.core.route.RouteContext;
-import ro.pippo.core.route.RouteHandler;
 import ro.pippo.demo.common.Contact;
 import ro.pippo.demo.common.ContactService;
 import ro.pippo.demo.common.InMemoryContactService;
@@ -49,90 +47,55 @@ public class AjaxApplication extends Application {
 //        GET("/", new RedirectHandler("/simple"));
         GET("/", new RedirectHandler("/crud"));
 
-        GET("/simple", new RouteHandler() {
-
-            @Override
-            public void handle(RouteContext routeContext) {
-                pageAccessTime = System.currentTimeMillis();
-                routeContext.render("simple");
-            }
-
+        GET("/simple", (routeContext) -> {
+            pageAccessTime = System.currentTimeMillis();
+            routeContext.render("simple");
         });
 
-        GET("/seconds", new RouteHandler() {
-
-            @Override
-            public void handle(RouteContext routeContext) {
-                long seconds = (System.currentTimeMillis() - pageAccessTime) / 1000;
-                routeContext.getResponse().send("You have been on this page for {} seconds...", seconds);
-            }
-
+        GET("/seconds", (routeContext) -> {
+            long seconds = (System.currentTimeMillis() - pageAccessTime) / 1000;
+            routeContext.getResponse().send("You have been on this page for {} seconds...", seconds);
         });
 
-        POST("/increment", new RouteHandler() {
-
-            @Override
-            public void handle(RouteContext routeContext) {
-                increment++;
-                routeContext.getResponse().send("Click Me! ({})", increment);
-            }
-
+        POST("/increment", (routeContext) -> {
+            increment++;
+            routeContext.getResponse().send("Click Me! ({})", increment);
         });
 
-        GET("/crud", new RouteHandler() {
-
-            @Override
-            public void handle(RouteContext routeContext) {
-                routeContext.setLocal("contacts", contactService.getContacts());
-                routeContext.render("crud");
-            }
-
+        GET("/crud", (routeContext) -> {
+            routeContext.setLocal("contacts", contactService.getContacts());
+            routeContext.render("crud");
         });
 
-        GET("/contact/{id}", new RouteHandler() {
+        GET("/contact/{id}", (routeContext) -> {
+            int id = routeContext.getParameter("id").toInt(0);
+            Contact contact = (id > 0) ? contactService.getContact(id) : new Contact();
+            routeContext.setLocal("contact", contact);
 
-            @Override
-            public void handle(RouteContext routeContext) {
-                int id = routeContext.getParameter("id").toInt(0);
-                Contact contact = (id > 0) ? contactService.getContact(id) : new Contact();
-                routeContext.setLocal("contact", contact);
-
-                Map<String, Object> parameters = new HashMap<>();
-                if (id > 0) {
-                    parameters.put("id", id);
-                }
+            Map<String, Object> parameters = new HashMap<>();
+            if (id > 0) {
+                parameters.put("id", id);
+            }
 //                routeContext.setLocal("saveUrl", getRouter().uriFor("/contact", parameters));
-                routeContext.setLocal("saveUrl", getRouter().uriFor("postContact", parameters));
+            routeContext.setLocal("saveUrl", getRouter().uriFor("postContact", parameters));
 
-                routeContext.render("view/contact");
-            }
-
+            routeContext.render("view/contact");
         });
 
-        POST("/contact", new RouteHandler() {
+        POST("/contact", (routeContext) -> {
+            Contact contact = routeContext.createEntityFromParameters(Contact.class);
+            contactService.save(contact);
 
-            @Override
-            public void handle(RouteContext routeContext) {
-                Contact contact = routeContext.createEntityFromParameters(Contact.class);
-                contactService.save(contact);
-
-                routeContext.getResponse().header("X-IC-Transition", "none");
-                routeContext.setLocal("contacts", contactService.getContacts());
-                routeContext.render("view/contacts");
-            }
-
+            routeContext.getResponse().header("X-IC-Transition", "none");
+            routeContext.setLocal("contacts", contactService.getContacts());
+            routeContext.render("view/contacts");
         }).named("postContact");
 
-        DELETE("/contact/{id}", new RouteHandler() {
+        DELETE("/contact/{id}", (routeContext) -> {
+            int id = routeContext.getParameter("id").toInt(0);
+            contactService.delete(id);
 
-            @Override
-            public void handle(RouteContext routeContext) {
-                int id = routeContext.getParameter("id").toInt(0);
-                contactService.delete(id);
-
-                routeContext.getResponse().header("X-IC-Remove", "true").commit();
-            }
-
+            routeContext.getResponse().header("X-IC-Remove", "true").commit();
         });
     }
 

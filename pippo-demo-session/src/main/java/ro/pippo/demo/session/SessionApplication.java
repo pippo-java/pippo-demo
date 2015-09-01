@@ -18,8 +18,6 @@ package ro.pippo.demo.session;
 import ro.pippo.core.Application;
 import ro.pippo.core.RequestResponseFactory;
 import ro.pippo.core.Session;
-import ro.pippo.core.route.RouteContext;
-import ro.pippo.core.route.RouteHandler;
 import ro.pippo.session.SessionDataStorage;
 import ro.pippo.session.SessionManager;
 import ro.pippo.session.SessionRequestResponseFactory;
@@ -34,41 +32,31 @@ public class SessionApplication extends Application {
 
     @Override
     protected void onInit() {
-        GET("/", new RouteHandler() {
+        GET("/", (routeContext) -> {
+            StringBuilder builder = new StringBuilder();
+            builder.append("Request: " + routeContext.getRequest().getHttpServletRequest());
+            builder.append("<br>");
+            Session session = routeContext.getRequest().getSession(false);
+            builder.append("Session: " + ((session != null) ? session.getId() : "<a href=\"session\">Create</a>"));
+            builder.append("<br>");
 
-            @Override
-            public void handle(RouteContext routeContext) {
-                StringBuilder builder = new StringBuilder();
-                builder.append("Request: " + routeContext.getRequest().getHttpServletRequest());
-                builder.append("<br>");
-                Session session = routeContext.getRequest().getSession(false);
-                builder.append("Session: " + ((session != null) ? session.getId() : "<a href=\"session\">Create</a>"));
-                builder.append("<br>");
-
-                if (session != null) {
-                    // show attributes
-                    Enumeration<String> names = session.getNames();
-                    while (names.hasMoreElements()) {
-                        String name = names.nextElement();
-                        builder.append("&nbsp;&nbsp;&nbsp;" + name + " > " + session.get(name));
-                        builder.append("<br>");
-                    }
+            if (session != null) {
+                // show attributes
+                Enumeration<String> names = session.getNames();
+                while (names.hasMoreElements()) {
+                    String name = names.nextElement();
+                    builder.append("&nbsp;&nbsp;&nbsp;" + name + " > " + session.get(name));
+                    builder.append("<br>");
                 }
-
-                routeContext.send(builder);
             }
 
+            routeContext.send(builder);
         });
 
-        GET("/session", new RouteHandler() {
-
-            @Override
-            public void handle(RouteContext routeContext) {
-//                routeContext.flashError("Test 123");
-                routeContext.setSession("test", "a simple test");
-                routeContext.redirect("/");
-            }
-
+        GET("/session", (routeContext) -> {
+//            routeContext.flashError("Test 123");
+            routeContext.setSession("test", "a simple test");
+            routeContext.redirect("/");
         });
     }
 

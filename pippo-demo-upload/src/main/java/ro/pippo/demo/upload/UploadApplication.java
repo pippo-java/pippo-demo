@@ -18,8 +18,6 @@ package ro.pippo.demo.upload;
 import ro.pippo.core.Application;
 import ro.pippo.core.FileItem;
 import ro.pippo.core.PippoRuntimeException;
-import ro.pippo.core.route.RouteContext;
-import ro.pippo.core.route.RouteHandler;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,38 +32,26 @@ public class UploadApplication extends Application {
 
 //        setMaximumUploadSize(100 * 1024); // 100k
 
-        GET("/", new RouteHandler() {
+        GET("/", (routeContext) -> routeContext.render("upload"));
 
-            @Override
-            public void handle(RouteContext routeContext) {
-                routeContext.render("upload");
-            }
+        POST("/upload", (routeContext) -> {
+            String submitter = routeContext.getParameter("submitter").toString();
+            System.out.println("submitter = " + submitter);
 
-        });
-
-        POST("/upload", new RouteHandler() {
-
-            @Override
-            public void handle(RouteContext routeContext) {
-                String submitter = routeContext.getParameter("submitter").toString();
-                System.out.println("submitter = " + submitter);
-
-                // retrieves the value for 'file'
-                FileItem file = routeContext.getRequest().getFile("file");
-                System.out.println("file = " + file);
-                try {
-                    // write to disk
+            // retrieves the value for 'file'
+            FileItem file = routeContext.getRequest().getFile("file");
+            System.out.println("file = " + file);
+            try {
+                // write to disk
 //                    file.write(file.getSubmittedFileName());
-                    File uploadedFile = new File(file.getSubmittedFileName());
-                    file.write(uploadedFile);
+                File uploadedFile = new File(file.getSubmittedFileName());
+                file.write(uploadedFile);
 
-                    // send response
-                    routeContext.send("Uploaded file to '" + uploadedFile + "'");
-                } catch (IOException e) {
-                    throw new PippoRuntimeException(e); // to display the error stack as response
-                }
+                // send response
+                routeContext.send("Uploaded file to '" + uploadedFile + "'");
+            } catch (IOException e) {
+                throw new PippoRuntimeException(e); // to display the error stack as response
             }
-
         });
     }
 

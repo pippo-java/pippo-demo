@@ -17,8 +17,6 @@ package ro.pippo.demo.validation;
 
 import ro.pippo.core.Application;
 import ro.pippo.core.Flash;
-import ro.pippo.core.route.RouteContext;
-import ro.pippo.core.route.RouteHandler;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -40,39 +38,29 @@ public class ValidationApplication extends Application {
         addPublicResourceRoute();
         addWebjarsResourceRoute();
 
-        GET("/", new RouteHandler() {
+        GET("/", (routeContext) -> {
+            Contact contact = new Contact();
+            routeContext.setLocal("contact", contact);
+            routeContext.render("contact");
+        });
 
-            @Override
-            public void handle(RouteContext routeContext) {
-                Contact contact = new Contact();
+        POST("/", (routeContext) -> {
+            Contact contact = routeContext.createEntityFromParameters(Contact.class);
+
+            // check for validation
+            Set<ConstraintViolation<Contact>> violations = validator.validate(contact);
+            if (violations.isEmpty()) {
+                routeContext.send(contact.toString());
+            } else {
+                // makes violations available to template via flash (response.getLocals().get("flash"))
+                Flash flash = routeContext.getResponse().getFlash();
+                for (ConstraintViolation<Contact> violation : violations) {
+                    flash.error(violation.getPropertyPath() + " " + violation.getMessage());
+                }
+
                 routeContext.setLocal("contact", contact);
                 routeContext.render("contact");
             }
-
-        });
-
-        POST("/", new RouteHandler() {
-
-            @Override
-            public void handle(RouteContext routeContext) {
-                Contact contact = routeContext.createEntityFromParameters(Contact.class);
-
-                // check for validation
-                Set<ConstraintViolation<Contact>> violations = validator.validate(contact);
-                if (violations.isEmpty()) {
-                    routeContext.send(contact.toString());
-                } else {
-                    // makes violations available to template via flash (response.getLocals().get("flash"))
-                    Flash flash = routeContext.getResponse().getFlash();
-                    for (ConstraintViolation<Contact> violation : violations) {
-                        flash.error(violation.getPropertyPath() + " " + violation.getMessage());
-                    }
-
-                    routeContext.setLocal("contact", contact);
-                    routeContext.render("contact");
-                }
-            }
-
         });
     }
 
