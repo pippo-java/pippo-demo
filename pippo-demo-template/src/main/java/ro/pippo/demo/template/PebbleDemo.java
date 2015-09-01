@@ -15,8 +15,15 @@
  */
 package ro.pippo.demo.template;
 
+import com.mitchellbosecke.pebble.PebbleEngine;
+import com.mitchellbosecke.pebble.extension.AbstractExtension;
+import com.mitchellbosecke.pebble.extension.Filter;
 import ro.pippo.core.Pippo;
 import ro.pippo.pebble.PebbleTemplateEngine;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author James Moger
@@ -25,8 +32,42 @@ public class PebbleDemo {
 
     public static void main(String[] args) {
         // .peb is the default file extension
-        Pippo pippo = new Pippo(new TemplateApplication(new PebbleTemplateEngine(), "pebble/hello"));
+//        Pippo pippo = new Pippo(new TemplateApplication(new PebbleTemplateEngine(), "pebble/hello"));
+        Pippo pippo = new Pippo(new TemplateApplication(new MyPebbleTemplateEngine(), "pebble/hello"));
         pippo.start();
+    }
+
+    public static class MyPebbleTemplateEngine extends PebbleTemplateEngine {
+
+        @Override
+        protected void init(PebbleEngine engine) {
+            engine.addExtension(new AbstractExtension() {
+
+                @Override
+                public Map<String, Filter> getFilters() {
+                    Map<String, Filter> filters = new HashMap<>();
+                    filters.put("myupper", new MyUpperFilter());
+
+                    return filters;
+                }
+
+            });
+        }
+
+    }
+
+    public static class MyUpperFilter implements Filter {
+
+        @Override
+        public List<String> getArgumentNames() {
+            return null;
+        }
+
+        @Override
+        public Object apply(Object input, Map<String, Object> args){
+            return (input != null) ? ((String) input).toUpperCase() : null;
+        }
+
     }
 
 }
