@@ -18,6 +18,7 @@ package ro.pippo.demo.template;
 import com.mitchellbosecke.pebble.PebbleEngine;
 import com.mitchellbosecke.pebble.extension.AbstractExtension;
 import com.mitchellbosecke.pebble.extension.Filter;
+import ro.pippo.core.Application;
 import ro.pippo.core.Pippo;
 import ro.pippo.pebble.PebbleTemplateEngine;
 
@@ -40,7 +41,7 @@ public class PebbleDemo {
     public static class MyPebbleTemplateEngine extends PebbleTemplateEngine {
 
         @Override
-        protected void init(PebbleEngine engine) {
+        protected void init(Application application, PebbleEngine engine) {
             engine.addExtension(new AbstractExtension() {
 
                 @Override
