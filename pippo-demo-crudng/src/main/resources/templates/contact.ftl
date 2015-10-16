@@ -29,8 +29,8 @@
           </div>
           <div class="form-group">
               <div class="col-sm-offset-2 col-sm-9">
-                  <button type="submit" class="btn btn-default btn-primary" ng-disabled="contactForm.$invalid">Submit</button>
-                  <a class="btn" href="contacts">Cancel</a>
+                  <button id="submit" type="submit" class="btn btn-default btn-primary" ng-disabled="contactForm.$invalid">Submit</button>
+                  <a id="cancel" class="btn" href="contacts">Cancel</a>
               </div>
           </div>
       </form>
