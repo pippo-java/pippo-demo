@@ -8,7 +8,7 @@
         <a id="addContactButton" type="button" class="btn btn-primary" href="${appPath}/contact/0?action=new"><i class="fa fa-plus"></i> Add Contact</a>
     </div>
 
-    <table class="table table-striped table-bordered table-hover">
+    <table id="contacts" class="table table-striped table-bordered table-hover">
         <thead>
         <tr>
             <th>#</th>
