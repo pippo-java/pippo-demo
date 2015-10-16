@@ -26,8 +26,8 @@
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-9">
                 <input type="hidden" name="_csrf_token" value="${csrfToken}">
-                <button type="submit" class="btn btn-default btn-primary">Submit</button>
-                <a class="btn" href="${backUrl}">Cancel</a>
+                <button id="save" type="submit" class="btn btn-default btn-primary">Submit</button>
+                <a id="cancel" class="btn" href="${backUrl}">Cancel</a>
             </div>
         </div>
     </form>
