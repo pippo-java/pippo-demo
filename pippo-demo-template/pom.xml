@@ -18,50 +18,50 @@
         <dependency>
             <groupId>ro.pippo</groupId>
             <artifactId>pippo-core</artifactId>
-            <version>${project.version}</version>
+            <version>${pippo.version}</version>
         </dependency>
 
         <dependency>
             <groupId>ro.pippo</groupId>
             <artifactId>pippo-freemarker</artifactId>
-            <version>${project.version}</version>
+            <version>${pippo.version}</version>
         </dependency>
 
         <dependency>
             <groupId>ro.pippo</groupId>
             <artifactId>pippo-metrics</artifactId>
-            <version>${project.version}</version>
+            <version>${pippo.version}</version>
         </dependency>
 
         <!-- Templates -->
         <dependency>
             <groupId>ro.pippo</groupId>
             <artifactId>pippo-jade</artifactId>
-            <version>${project.version}</version>
+            <version>${pippo.version}</version>
         </dependency>
 
         <dependency>
             <groupId>ro.pippo</groupId>
             <artifactId>pippo-trimou</artifactId>
-            <version>${project.version}</version>
+            <version>${pippo.version}</version>
         </dependency>
 
         <dependency>
             <groupId>ro.pippo</groupId>
             <artifactId>pippo-pebble</artifactId>
-            <version>${project.version}</version>
+            <version>${pippo.version}</version>
         </dependency>
 
         <dependency>
             <groupId>ro.pippo</groupId>
             <artifactId>pippo-groovy</artifactId>
-            <version>${project.version}</version>
+            <version>${pippo.version}</version>
         </dependency>
 
         <dependency>
             <groupId>ro.pippo</groupId>
             <artifactId>pippo-velocity</artifactId>
-            <version>${project.version}</version>
+            <version>${pippo.version}</version>
         </dependency>
 
         <!-- Webjars -->

@@ -46,7 +46,7 @@
         <java.version>1.8</java.version>
         <slf4j.version>1.7.7</slf4j.version>
 
-        <pippo.version>@{project.version}</pippo.version>
+        <pippo.version>0.8.0-SNAPSHOT</pippo.version>
     </properties>
 
     <build>
@@ -178,12 +178,12 @@
                 <dependency>
                     <groupId>ro.pippo</groupId>
                     <artifactId>pippo-jetty</artifactId>
-                    <version>${project.version}</version>
+                    <version>${pippo.version}</version>
                 </dependency>
                 <dependency>
                     <groupId>ro.pippo</groupId>
                     <artifactId>pippo-jaxb</artifactId>
-                    <version>${project.version}</version>
+                    <version>${pippo.version}</version>
                 </dependency>
             </dependencies>
         </profile>
