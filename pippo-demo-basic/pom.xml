@@ -24,19 +24,19 @@
         <dependency>
             <groupId>ro.pippo</groupId>
             <artifactId>pippo-core</artifactId>
-            <version>${project.version}</version>
+            <version>${pippo.version}</version>
         </dependency>
 
         <dependency>
             <groupId>ro.pippo</groupId>
             <artifactId>pippo-freemarker</artifactId>
-            <version>${project.version}</version>
+            <version>${pippo.version}</version>
         </dependency>
 
         <dependency>
             <groupId>ro.pippo</groupId>
             <artifactId>pippo-jackson</artifactId>
-            <version>${project.version}</version>
+            <version>${pippo.version}</version>
         </dependency>
 
     </dependencies>
