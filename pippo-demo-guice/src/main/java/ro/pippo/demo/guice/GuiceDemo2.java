@@ -28,7 +28,7 @@ import ro.pippo.core.Pippo;
 public class GuiceDemo2 {
 
     public static void main(String[] args) {
-        Injector injector = Guice.createInjector(new GuiceModule());
+        Injector injector = Guice.createInjector(new GuiceModule2());
         Application application = injector.getInstance(Application.class);
 
         Pippo pippo = new Pippo(application);
