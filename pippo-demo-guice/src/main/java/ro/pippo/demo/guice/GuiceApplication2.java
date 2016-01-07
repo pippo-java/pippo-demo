@@ -17,6 +17,7 @@ package ro.pippo.demo.guice;
 
 import com.google.inject.Inject;
 import ro.pippo.controller.ControllerApplication;
+import ro.pippo.core.route.Router;
 import ro.pippo.demo.common.ContactService;
 
 /**
@@ -38,6 +39,12 @@ public class GuiceApplication2 extends ControllerApplication {
 
     public ContactService getContactService() {
         return contactService;
+    }
+
+    @Override
+    @Inject
+    public void setRouter(Router router) {
+        super.setRouter(router);
     }
 
 }

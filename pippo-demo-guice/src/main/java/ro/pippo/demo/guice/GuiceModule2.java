@@ -16,7 +16,9 @@
 package ro.pippo.demo.guice;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.Scopes;
 import ro.pippo.core.Application;
+import ro.pippo.core.route.Router;
 import ro.pippo.demo.common.ContactService;
 import ro.pippo.demo.common.InMemoryContactService;
 
@@ -29,6 +31,7 @@ public class GuiceModule2 extends AbstractModule {
 	protected void configure() {
 		bind(ContactService.class).to(InMemoryContactService.class).asEagerSingleton();
 		bind(Application.class).to(GuiceApplication2.class).asEagerSingleton();
+        bind(Router.class).to(CustomRouter.class).in(Scopes.SINGLETON);
 	}
 
 }
