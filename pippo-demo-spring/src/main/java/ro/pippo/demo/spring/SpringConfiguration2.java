@@ -18,6 +18,7 @@ package ro.pippo.demo.spring;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import ro.pippo.core.Application;
+import ro.pippo.core.route.Router;
 import ro.pippo.demo.common.ContactService;
 import ro.pippo.demo.common.InMemoryContactService;
 
@@ -35,6 +36,11 @@ public class SpringConfiguration2 {
     @Bean
     public Application application() {
         return new SpringApplication2();
+    }
+
+    @Bean
+    public Router router() {
+        return new CustomRouter();
     }
 
 }

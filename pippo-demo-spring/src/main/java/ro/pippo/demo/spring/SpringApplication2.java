@@ -16,6 +16,7 @@
 package ro.pippo.demo.spring;
 
 import ro.pippo.controller.ControllerApplication;
+import ro.pippo.core.route.Router;
 import ro.pippo.demo.common.ContactService;
 
 import javax.inject.Inject;
@@ -39,6 +40,12 @@ public class SpringApplication2 extends ControllerApplication {
 
     public ContactService getContactService() {
         return contactService;
+    }
+
+    @Override
+    @Inject
+    public void setRouter(Router router) {
+        super.setRouter(router);
     }
 
 }
