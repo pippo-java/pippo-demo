@@ -37,6 +37,12 @@ public class BasicApplication extends Application {
         // send files from a local folder (try a request like 'src/main/java/ro/pippo/demo/basic/BasicApplication.java')
         addFileResourceRoute("/src", "src");
 
+        // serve a local folder (try a request like 'workdir/plain')
+        addDirectoryResourceRoute("/workdir/plain", new File(""));
+
+        // serve a local folder (try a request like 'workdir/template')
+        addDirectoryResourceRoute("/workdir/template", new File(""), "files.ftl");
+
         // send 'Hello World' as response
         GET("/", (routeContext) -> routeContext.send("Hello World")).named("Hello World handler");
 
