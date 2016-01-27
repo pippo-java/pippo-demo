@@ -16,7 +16,7 @@
         <dependency>
             <groupId>ro.pippo</groupId>
             <artifactId>pippo-less4j</artifactId>
-            <version>${project.version}</version>
+            <version>${pippo.version}</version>
         </dependency>
 
         <dependency>
