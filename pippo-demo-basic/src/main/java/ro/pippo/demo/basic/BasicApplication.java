@@ -19,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ro.pippo.core.Application;
 import ro.pippo.core.HttpConstants;
+import ro.pippo.core.route.DirectoryHandler;
 import ro.pippo.demo.common.Contact;
 
 import java.io.File;
@@ -38,10 +39,13 @@ public class BasicApplication extends Application {
         addFileResourceRoute("/src", "src");
 
         // serve a local folder (try a request like 'workdir/plain')
-        addDirectoryResourceRoute("/workdir/plain", new File(""));
+        DirectoryHandler directoryHandler = new DirectoryHandler("/workdir/plain", new File(""));
+        GET(directoryHandler.getUriPattern(), directoryHandler);
 
         // serve a local folder (try a request like 'workdir/template')
-        addDirectoryResourceRoute("/workdir/template", new File(""), "files.ftl");
+        DirectoryHandler directoryHandler2 = new DirectoryHandler("/workdir/template", new File(""))
+            .setDirectoryTemplate("files.ftl");
+        GET(directoryHandler2.getUriPattern(), directoryHandler2);
 
         // send 'Hello World' as response
         GET("/", (routeContext) -> routeContext.send("Hello World")).named("Hello World handler");
