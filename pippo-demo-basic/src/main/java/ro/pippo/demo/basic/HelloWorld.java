@@ -16,8 +16,6 @@
 package ro.pippo.demo.basic;
 
 import ro.pippo.core.Pippo;
-import ro.pippo.core.route.RouteContext;
-import ro.pippo.core.route.RouteHandler;
 
 /**
  * @author Decebal Suiu
@@ -28,17 +26,10 @@ public class HelloWorld {
         // the super short version
         Pippo.send("Hello World!");
 
-        // the "clean" approach
         /*
+        // the "clean" approach
         Pippo pippo = new Pippo();
-        pippo.getApplication().GET("/", new RouteHandler() {
-
-            @Override
-            public void handle(RouteContext routeContext) {
-                routeContext.send("Hello World!");
-            }
-
-        });
+        pippo.getApplication().GET("/", routeContext -> routeContext.send("Hello World!"));
         pippo.start();
         */
     }
