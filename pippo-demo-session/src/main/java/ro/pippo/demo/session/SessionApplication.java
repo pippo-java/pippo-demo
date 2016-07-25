@@ -62,7 +62,7 @@ public class SessionApplication extends Application {
 
     @Override
     protected RequestResponseFactory createRequestResponseFactory() {
-        SessionDataStorage sessionDataStorage = new CookieSessionDataStorage();
+        SessionDataStorage sessionDataStorage = new CookieSessionDataStorage(getPippoSettings());
         SessionManager sessionManager = new SessionManager(sessionDataStorage);
 
         return new SessionRequestResponseFactory(this, sessionManager);
