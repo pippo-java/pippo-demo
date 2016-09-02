@@ -24,13 +24,14 @@ public class HelloWorld {
 
     public static void main(String[] args) {
         // the super short version
-//        Pippo.send("Hello World!");
+        Pippo.send("Hello World!");
 
-        // the "clean" approach
+        // the "clean" version
+        /*
         Pippo pippo = new Pippo();
         pippo.GET("/", routeContext -> routeContext.send("Hello World!"));
-        pippo.GET("/123", routeContext -> routeContext.send("AAA!"));
         pippo.start();
+        */
     }
 
 }
