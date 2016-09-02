@@ -39,6 +39,17 @@
             <version>${pippo.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>ro.pippo</groupId>
+            <artifactId>pippo-test</artifactId>
+            <version>${pippo.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>ro.pippo</groupId>
+            <artifactId>pippo-metrics</artifactId>
+            <version>${pippo.version}</version>
+        </dependency>
     </dependencies>
 
 </project>

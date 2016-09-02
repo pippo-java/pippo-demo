@@ -20,7 +20,10 @@ import org.slf4j.LoggerFactory;
 import ro.pippo.core.Application;
 import ro.pippo.core.HttpConstants;
 import ro.pippo.core.route.DirectoryHandler;
+import ro.pippo.core.route.RouteContext;
+import ro.pippo.core.route.RouteHandler;
 import ro.pippo.demo.common.Contact;
+import ro.pippo.metrics.Metered;
 
 import java.io.File;
 
@@ -110,18 +113,28 @@ public class BasicApplication extends Application {
         });
 
         // send a template as response
-        GET("/template", (routeContext) -> {
-            String message;
+        GET("/template", new RouteHandler() {
 
-            String lang = routeContext.getParameter("lang").toString();
-            if (lang == null) {
-                message = getMessages().get("pippo.greeting", routeContext);
-            } else {
-                message = getMessages().get("pippo.greeting", lang);
+            @Metered
+            @Override
+            public void handle(RouteContext routeContext) {
+                String message;
+
+                String lang = routeContext.getParameter("lang").toString();
+                if (lang == null) {
+                    message = getMessages().get("pippo.greeting", routeContext);
+                } else {
+                    message = getMessages().get("pippo.greeting", lang);
+                }
+
+                routeContext.setLocal("greeting", message);
+                routeContext.render("hello");
             }
 
-            routeContext.setLocal("greeting", message);
-            routeContext.render("hello");
+        });
+
+        GET("/issue-306", (routeContext) -> {
+            routeContext.text().send("»»»»»1234567890");
         });
 
         // send an error as response
@@ -132,7 +145,7 @@ public class BasicApplication extends Application {
             routeContext.status(statusCode);
         });
 
-        // throw a programatically exception
+        // throw a programmatically exception
         GET("/exception", (routeContext) -> {
             throw new RuntimeException("My programatically error");
         });
