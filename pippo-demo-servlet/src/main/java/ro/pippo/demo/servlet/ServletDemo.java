@@ -17,14 +17,22 @@ package ro.pippo.demo.servlet;
 
 import ro.pippo.core.Pippo;
 
+import static ro.pippo.core.route.Route.GET;
+
 /**
  * @author Decebal Suiu
  */
 public class ServletDemo {
 
     public static void main(String[] args) {
-        Pippo pippo = new Pippo(new ServletApplication());
+        Pippo pippo = new Pippo();
+
+        // set pippo filter path
         pippo.getServer().setPippoFilterPath("/app/*");
+
+        // add route
+        GET("/", routeContext -> routeContext.send("Hello from Pippo route!"));
+
         pippo.start();
     }
 

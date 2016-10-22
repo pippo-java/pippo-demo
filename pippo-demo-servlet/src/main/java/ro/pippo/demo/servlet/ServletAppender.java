@@ -15,7 +15,10 @@
  */
 package ro.pippo.demo.servlet;
 
-import ro.pippo.core.Application;
+import org.kohsuke.MetaInfServices;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import ro.pippo.core.WebServerInitializer;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRegistration;
@@ -23,19 +26,24 @@ import javax.servlet.ServletRegistration;
 /**
  * @author Decebal Suiu
  */
-public class ServletApplication extends Application {
+@MetaInfServices
+public class ServletAppender implements WebServerInitializer {
+
+    private static final Logger log = LoggerFactory.getLogger(ServletAppender.class);
 
     @Override
-    protected void onInit() {
-        ServletContext servletContext = getServletContext();
-        // add servlet
+    public void init(ServletContext servletContext) {
         ServletRegistration.Dynamic demoServlet = servletContext.addServlet("demo", DemoServlet.class);
         demoServlet.setLoadOnStartup(1);
         demoServlet.addMapping("/demo");
         // other possible settings for demoServlet
 
-        // add regular routes
-        GET("/", routeContext -> routeContext.send("Hello from Pippo route!"));
+        log.debug("Added servlet '{}' to '{}'", demoServlet.getClassName(), demoServlet.getMappings().iterator().next());
+    }
+
+    @Override
+    public void destroy(ServletContext servletContext) {
+        // do nothing
     }
 
 }
