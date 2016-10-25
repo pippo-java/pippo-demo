@@ -163,6 +163,7 @@
         <module>pippo-demo-ajax</module>
         <module>pippo-demo-css</module>
         <module>pippo-demo-crudko</module>
+        <module>pippo-demo-servlet</module>
     </modules>
 
     <profiles>
