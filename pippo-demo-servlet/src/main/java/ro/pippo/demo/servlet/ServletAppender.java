@@ -31,9 +31,11 @@ public class ServletAppender implements WebServerInitializer {
 
     private static final Logger log = LoggerFactory.getLogger(ServletAppender.class);
 
+    public static final String SERVLET_NAME = "demo";
+
     @Override
     public void init(ServletContext servletContext) {
-        ServletRegistration.Dynamic demoServlet = servletContext.addServlet("demo", DemoServlet.class);
+        ServletRegistration.Dynamic demoServlet = servletContext.addServlet(SERVLET_NAME, DemoServlet.class);
         demoServlet.setLoadOnStartup(1);
         demoServlet.addMapping("/demo");
         // other possible settings for demoServlet

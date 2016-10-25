@@ -15,27 +15,17 @@
  */
 package ro.pippo.demo.servlet;
 
-import ro.pippo.core.Pippo;
-import ro.pippo.core.WebServer;
+import ro.pippo.core.Application;
 
 /**
  * @author Decebal Suiu
  */
-public class ServletDemo {
+public class ServletApplication extends Application {
 
-    public static void main(String[] args) {
-//        Pippo pippo = new Pippo();
-        Pippo pippo = new Pippo(new ServletApplication());
-
-        // set pippo filter path and add FilterAppender (it's a ServletContextListener)
-        pippo.getServer()
-            .setPippoFilterPath("/app/*")
-            .addListener(FilterAppender.class);
-
+    @Override
+    protected void onInit() {
         // add route
-//        GET("/", routeContext -> routeContext.send("Hello from Pippo route!"));
-
-        pippo.start();
+        GET("/", routeContext -> routeContext.send("Hello from Pippo route!"));
     }
 
 }
