@@ -16,7 +16,6 @@
 package ro.pippo.demo.servlet;
 
 import ro.pippo.core.Pippo;
-import ro.pippo.core.WebServer;
 
 /**
  * @author Decebal Suiu
