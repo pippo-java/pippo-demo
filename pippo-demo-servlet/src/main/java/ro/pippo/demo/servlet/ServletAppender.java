@@ -18,6 +18,7 @@ package ro.pippo.demo.servlet;
 import org.kohsuke.MetaInfServices;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ro.pippo.core.WebServer;
 import ro.pippo.core.WebServerInitializer;
 
 import javax.servlet.ServletContext;
@@ -41,6 +42,10 @@ public class ServletAppender implements WebServerInitializer {
         // other possible settings for demoServlet
 
         log.debug("Added servlet '{}' to '{}'", demoServlet.getClassName(), demoServlet.getMappings().iterator().next());
+
+        // retrieve the application (if you need it)
+        ServletApplication application = (ServletApplication) servletContext.getAttribute(WebServer.PIPPO_APPLICATION);
+        log.debug("application = {}", application);
     }
 
     @Override
