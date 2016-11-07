@@ -21,6 +21,9 @@ import ro.pippo.core.Pippo;
 import java.util.logging.LogManager;
 
 /**
+ * Pippo's route: {@code http://localhost:8338/app}.
+ * Jersey's resource: {@code http://localhost:8338/rest/hello}.
+ *
  * @author Decebal Suiu
  */
 public class JerseyDemo {
