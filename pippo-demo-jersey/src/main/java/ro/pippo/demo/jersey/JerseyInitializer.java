@@ -15,13 +15,12 @@
  */
 package ro.pippo.demo.jersey;
 
-import org.glassfish.jersey.logging.LoggingFeature;
 import org.glassfish.jersey.server.ResourceConfig;
-import org.glassfish.jersey.server.ServerProperties;
 import org.glassfish.jersey.servlet.ServletContainer;
 import org.kohsuke.MetaInfServices;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ro.pippo.core.WebServer;
 import ro.pippo.core.WebServerInitializer;
 
 import javax.servlet.ServletContext;
@@ -37,12 +36,14 @@ public class JerseyInitializer implements WebServerInitializer {
 
     @Override
     public void init(ServletContext servletContext) {
-        ResourceConfig resourceConfig = createResourceConfig();
+        // retrieve the resource config
+        JerseyApplication application = (JerseyApplication) servletContext.getAttribute(WebServer.PIPPO_APPLICATION);
+        ResourceConfig resourceConfig = application.getResourceConfig();
 
         // add jersey filter
         ServletRegistration.Dynamic jerseyServlet = servletContext.addServlet("jersey", new ServletContainer(resourceConfig));
         jerseyServlet.setLoadOnStartup(1);
-        jerseyServlet.addMapping("/rest/*");
+        jerseyServlet.addMapping("/jersey/*");
 
         logger.debug("Jersey initialized");
     }
@@ -50,21 +51,6 @@ public class JerseyInitializer implements WebServerInitializer {
     @Override
     public void destroy(ServletContext servletContext) {
         // do nothing
-    }
-
-    private ResourceConfig createResourceConfig() {
-        ResourceConfig resourceConfig = new ResourceConfig();
-//        resourceConfig.packages(getClass().getPackage().getName());
-        resourceConfig.register(HelloResource.class);
-
-        // logging
-        resourceConfig.register(LoggingFeature.class);
-
-        // enable tracing support (http://yatel.kramolis.cz/2013/11/jersey-2-tracing-support.html)
-        resourceConfig.property(ServerProperties.TRACING, "ALL");
-//        resourceConfig.property(ServerProperties.TRACING_THRESHOLD, "VERBOSE");
-
-        return resourceConfig;
     }
 
 }

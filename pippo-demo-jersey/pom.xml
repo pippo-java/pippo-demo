@@ -16,9 +16,19 @@
 
     <properties>
         <jersey.version>2.24</jersey.version>
+
+        <junit.version>4.12</junit.version>
+        <mockito.version>2.0.28-beta</mockito.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>ro.pippo</groupId>
+            <artifactId>pippo-demo-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- Pippo -->
         <dependency>
             <groupId>ro.pippo</groupId>
             <artifactId>pippo-core</artifactId>
@@ -26,10 +36,9 @@
         </dependency>
 
         <dependency>
-            <groupId>org.kohsuke.metainf-services</groupId>
-            <artifactId>metainf-services</artifactId>
-            <version>1.7</version>
-            <scope>provided</scope>
+            <groupId>ro.pippo</groupId>
+            <artifactId>pippo-jackson</artifactId>
+            <version>${pippo.version}</version>
         </dependency>
 
         <!-- Jersey -->
@@ -51,6 +60,18 @@
             <groupId>org.glassfish.jersey.containers</groupId>
             <artifactId>jersey-container-servlet</artifactId>
             <version>${jersey.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-json-jackson</artifactId>
+            <version>${jersey.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-annotations</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- Jetty -->
@@ -78,11 +99,40 @@
         </dependency>
         -->
 
+        <dependency>
+            <groupId>org.kohsuke.metainf-services</groupId>
+            <artifactId>metainf-services</artifactId>
+            <version>1.7</version>
+            <scope>provided</scope>
+        </dependency>
+
         <!-- Logging -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>jul-to-slf4j</artifactId>
             <version>${slf4j.version}</version>
+        </dependency>
+
+        <!-- Test -->
+        <dependency>
+            <groupId>ro.pippo</groupId>
+            <artifactId>pippo-test</artifactId>
+            <version>${pippo.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>${mockito.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

@@ -21,8 +21,13 @@ import ro.pippo.core.Pippo;
 import java.util.logging.LogManager;
 
 /**
- * Pippo's route: {@code http://localhost:8338/app}.
- * Jersey's resource: {@code http://localhost:8338/rest/hello}.
+ * Pippo's routes:
+ * - {@code http://localhost:8338/pippo/hello}
+ * - {@code http://localhost:8338/pippo/contact/1}
+ *
+ * Jersey's resources:
+ * - {@code http://localhost:8338/jersey/hello}
+ * - {@code http://localhost:8338/jersey/contact/1}
  *
  * @author Decebal Suiu
  */
@@ -36,16 +41,20 @@ public class JerseyDemo {
     }
 
     public static void main(String[] args) {
-//        Pippo pippo = new Pippo();
-        Pippo pippo = new Pippo(new JerseyApplication());
+        pippo().start();
+    }
+
+    public static Pippo pippo() {
+        // create application instance
+        JerseyApplication application = new JerseyApplication();
+
+        // create pippo instance
+        Pippo pippo = new Pippo(application);
 
         // set pippo filter path
-        pippo.getServer().setPippoFilterPath("/app/*");
+        pippo.getServer().setPippoFilterPath("/pippo/*");
 
-        // add route
-//        pippo.GET("/", routeContext -> routeContext.send("Hello from Pippo!"));
-
-        pippo.start();
+        return pippo;
     }
 
 }

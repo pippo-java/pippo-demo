@@ -15,17 +15,61 @@
  */
 package ro.pippo.demo.jersey;
 
+import org.glassfish.jersey.server.ResourceConfig;
 import ro.pippo.core.Application;
+import ro.pippo.demo.common.Contact;
+import ro.pippo.demo.common.ContactService;
+import ro.pippo.demo.common.InMemoryContactService;
 
 /**
  * @author Decebal Suiu
  */
 public class JerseyApplication extends Application {
 
+    private ContactService contactService;
+    private ResourceConfig resourceConfig;
+
     @Override
     protected void onInit() {
-        // add route
-        GET("/", routeContext -> routeContext.send("Hello from Pippo!"));
+        // add routes
+        GET("/hello", routeContext -> routeContext.text().send("Hello from Pippo!"));
+        GET("/contact/{id}", routeContext -> {
+            int id = routeContext.getParameter("id").toInt(); // read parameter "id"
+            Contact contact = getContactService().getContact(id);
+            routeContext.json().send(contact);
+        });
+    }
+
+    public final ContactService getContactService() {
+        if (contactService == null) {
+            contactService = createContactService();
+        }
+
+        return contactService;
+    }
+
+    public final ResourceConfig getResourceConfig() {
+        if (resourceConfig == null) {
+            resourceConfig = createResourceConfig();
+        }
+
+        return resourceConfig;
+    }
+
+    public void setContactService(ContactService contactService) {
+        this.contactService = contactService;
+    }
+
+    protected ContactService createContactService() {
+        return new InMemoryContactService();
+    }
+
+    protected ResourceConfig createResourceConfig() {
+        ResourceConfig resourceConfig = new ResourceConfig();
+        resourceConfig.register(HelloResource.class);
+        resourceConfig.register(ContactResource.class);
+
+        return resourceConfig;
     }
 
 }
