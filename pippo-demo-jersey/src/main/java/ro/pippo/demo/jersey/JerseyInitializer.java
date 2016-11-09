@@ -20,7 +20,6 @@ import org.glassfish.jersey.servlet.ServletContainer;
 import org.kohsuke.MetaInfServices;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ro.pippo.core.WebServer;
 import ro.pippo.core.WebServerInitializer;
 
 import javax.servlet.ServletContext;
@@ -36,9 +35,7 @@ public class JerseyInitializer implements WebServerInitializer {
 
     @Override
     public void init(ServletContext servletContext) {
-        // retrieve the resource config
-        JerseyApplication application = (JerseyApplication) servletContext.getAttribute(WebServer.PIPPO_APPLICATION);
-        ResourceConfig resourceConfig = application.getResourceConfig();
+        ResourceConfig resourceConfig = createResourceConfig();
 
         // add jersey filter
         ServletRegistration.Dynamic jerseyServlet = servletContext.addServlet("jersey", new ServletContainer(resourceConfig));
@@ -51,6 +48,14 @@ public class JerseyInitializer implements WebServerInitializer {
     @Override
     public void destroy(ServletContext servletContext) {
         // do nothing
+    }
+
+    private ResourceConfig createResourceConfig() {
+        ResourceConfig resourceConfig = new ResourceConfig();
+        resourceConfig.register(HelloResource.class);
+        resourceConfig.register(ContactResource.class);
+
+        return resourceConfig;
     }
 
 }
