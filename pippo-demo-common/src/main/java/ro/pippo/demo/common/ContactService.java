@@ -22,12 +22,12 @@ import java.util.List;
  */
 public interface ContactService {
 
-    public List<Contact> getContacts();
+    List<Contact> getContacts();
 
-    public Contact getContact(int id);
+    Contact getContact(int id);
 
-    public void delete(int id);
+    void delete(int id);
 
-    public Contact save(Contact contact);
+    Contact save(Contact contact);
 
 }
