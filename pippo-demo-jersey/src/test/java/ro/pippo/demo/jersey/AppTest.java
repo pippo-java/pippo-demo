@@ -33,7 +33,7 @@ import static org.junit.Assert.assertEquals;
 public class AppTest extends PippoTest {
 
     @Rule
-    public PippoRule pippoRule = new PippoRule(JerseyDemo.pippo());
+    public PippoRule pippoRule = new PippoRule(new JerseyDemo());
 
     @Test
     public void testPippoHello() {

@@ -24,6 +24,7 @@ import java.util.logging.LogManager;
  * Pippo's routes:
  * - {@code http://localhost:8338/pippo/hello}
  * - {@code http://localhost:8338/pippo/contact/1}
+ * - {@code http://localhost:8338/pippo/contacts}
  *
  * Jersey's resources:
  * - {@code http://localhost:8338/jersey/hello}
@@ -31,7 +32,7 @@ import java.util.logging.LogManager;
  *
  * @author Decebal Suiu
  */
-public class JerseyDemo {
+public class JerseyDemo extends Pippo {
 
     // for jersey log
     static {
@@ -40,21 +41,15 @@ public class JerseyDemo {
         SLF4JBridgeHandler.install();
     }
 
-    public static void main(String[] args) {
-        pippo().start();
-    }
-
-    public static Pippo pippo() {
-        // create application instance
-        JerseyApplication application = new JerseyApplication();
-
-        // create pippo instance
-        Pippo pippo = new Pippo(application);
+    public JerseyDemo() {
+        super(new JerseyApplication());
 
         // set pippo filter path
-        pippo.getServer().setPippoFilterPath("/pippo/*");
+        getServer().setPippoFilterPath("/pippo/*");
+    }
 
-        return pippo;
+    public static void main(String[] args) {
+        new JerseyDemo().start();
     }
 
 }
