@@ -47,7 +47,7 @@ public class CrudApplication extends Application {
         addWebjarsResourceRoute();
 
         // audit filter
-        ALL("/.*", (routeContext) -> {
+        ALL("/.*", routeContext -> {
             log.info("Request for {} '{}'", routeContext.getRequestMethod(), routeContext.getRequestUri());
             routeContext.next();
         });
@@ -59,7 +59,7 @@ public class CrudApplication extends Application {
         ALL("/contact.*", new CSRFHandler()).named("CSRF handler");
 
         // authentication filter
-        GET("/contact.*", (routeContext) -> {
+        GET("/contact.*", routeContext -> {
             if (routeContext.getSession("username") == null) {
                 routeContext.setSession("originalDestination", routeContext.getRequest().getApplicationUriWithQuery());
                 routeContext.redirect("/login");
@@ -68,7 +68,7 @@ public class CrudApplication extends Application {
             }
         });
 
-        GET("/login", (routeContext) -> routeContext.render("login"));
+        GET("/login", routeContext -> routeContext.render("login"));
 
         POST("/login", new RouteHandler() {
 
@@ -94,7 +94,7 @@ public class CrudApplication extends Application {
 
         });
 
-        GET("/", (routeContext) -> routeContext.redirect("/contacts"));
+        GET("/", routeContext -> routeContext.redirect("/contacts"));
 
         GET("/contacts", new RouteHandler() {
 
@@ -143,7 +143,7 @@ public class CrudApplication extends Application {
 
         });
 
-        POST("/contact", (routeContext) -> {
+        POST("/contact", routeContext -> {
             String action = routeContext.getParameter("action").toString();
             if ("save".equals(action)) {
                 Contact contact = routeContext.createEntityFromParameters(Contact.class);

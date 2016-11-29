@@ -32,7 +32,7 @@ public class SessionApplication extends Application {
 
     @Override
     protected void onInit() {
-        GET("/", (routeContext) -> {
+        GET("/", routeContext -> {
             StringBuilder builder = new StringBuilder();
             builder.append("Request: " + routeContext.getRequest().getHttpServletRequest());
             builder.append("<br>");
@@ -53,7 +53,7 @@ public class SessionApplication extends Application {
             routeContext.send(builder);
         });
 
-        GET("/session", (routeContext) -> {
+        GET("/session", routeContext -> {
 //            routeContext.flashError("Test 123");
             routeContext.setSession("test", "a simple test");
             routeContext.redirect("/");

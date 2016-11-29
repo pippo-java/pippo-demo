@@ -32,9 +32,9 @@ public class UploadApplication extends Application {
 
 //        setMaximumUploadSize(100 * 1024); // 100k
 
-        GET("/", (routeContext) -> routeContext.render("upload"));
+        GET("/", routeContext -> routeContext.render("upload"));
 
-        POST("/upload", (routeContext) -> {
+        POST("/upload", routeContext -> {
             String submitter = routeContext.getParameter("submitter").toString();
             System.out.println("submitter = " + submitter);
 

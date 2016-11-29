@@ -51,13 +51,13 @@ public class BasicApplication extends Application {
         GET(directoryHandler2.getUriPattern(), directoryHandler2);
 
         // send 'Hello World' as response
-        GET("/", (routeContext) -> routeContext.send("Hello World")).named("Hello World handler");
+        GET("/", routeContext -> routeContext.send("Hello World")).named("Hello World handler");
 
         // send a file as response
-        GET("/file", (routeContext) -> routeContext.send(new File("pom.xml")));
+        GET("/file", routeContext -> routeContext.send(new File("pom.xml")));
 
         // send a json as response
-        GET("/json", (routeContext) -> {
+        GET("/json", routeContext -> {
             Contact contact = new Contact()
                 .setId(12345)
                 .setName("John")
@@ -70,7 +70,7 @@ public class BasicApplication extends Application {
         });
 
         // send xml as response
-        GET("/xml", (routeContext) -> {
+        GET("/xml", routeContext -> {
             Contact contact = new Contact()
                 .setId(12345)
                 .setName("John")
@@ -83,7 +83,7 @@ public class BasicApplication extends Application {
         });
 
         // send text as response
-        GET("/text", (routeContext) -> {
+        GET("/text", routeContext -> {
             Contact contact = new Contact()
                 .setId(12345)
                 .setName("John")
@@ -93,7 +93,7 @@ public class BasicApplication extends Application {
         });
 
         // send an object and negotiate the Response content-type, default to XML
-        GET("/negotiate", (routeContext) -> {
+        GET("/negotiate", routeContext -> {
             Contact contact = new Contact()
                 .setId(12345)
                 .setName("John")
@@ -103,7 +103,7 @@ public class BasicApplication extends Application {
         });
 
         // send an object, negotiate the Response content-type (default to XML), but allow override by suffix
-        GET("/contact/{id: [0-9]+}(\\.(json|xml|yaml))?", (routeContext) -> {
+        GET("/contact/{id: [0-9]+}(\\.(json|xml|yaml))?", routeContext -> {
             Contact contact = new Contact()
                 .setId(routeContext.getParameter("id").toInt())
                 .setName("Test Contact")
@@ -133,12 +133,12 @@ public class BasicApplication extends Application {
 
         });
 
-        GET("/issue-306", (routeContext) -> {
+        GET("/issue-306", routeContext -> {
             routeContext.text().send("»»»»»1234567890");
         });
 
         // send an error as response
-        GET("/error(\\.(json|xml|yaml))?", (routeContext) -> {
+        GET("/error(\\.(json|xml|yaml))?", routeContext -> {
             int statusCode = routeContext.getParameter("code").toInt(HttpConstants.StatusCode.INTERNAL_ERROR);
             // do not commit the response
             // this delegates response representation to PippoFilter
@@ -146,18 +146,20 @@ public class BasicApplication extends Application {
         });
 
         // throw a programmatically exception
-        GET("/exception", (routeContext) -> {
+        GET("/exception", routeContext -> {
             throw new RuntimeException("My programatically error");
         });
 
         // throw an exception that gets handled by a registered ExceptionHandler
-        GET("/whoops", (routeContext) -> {
+        GET("/whoops", routeContext -> {
             throw new ForbiddenException("You didn't say the magic word!");
         });
 
         // use a finally filter (invoked even when exceptions were raised in previous routes)
         // test with route "/" and "/exception"
-        ALL("/.*", (routeContext) -> log.info(">>> Cleanup here")).named("cleanup filter").runAsFinally();
+        ALL("/.*", routeContext -> log.info(">>> Cleanup here"))
+            .named("cleanup filter")
+            .runAsFinally();
 
         // register a custom ExceptionHandler
         getErrorHandler().setExceptionHandler(ForbiddenException.class, (e, routeContext) -> {

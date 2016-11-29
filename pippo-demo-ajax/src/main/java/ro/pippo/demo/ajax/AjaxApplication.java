@@ -47,27 +47,27 @@ public class AjaxApplication extends Application {
 //        GET("/", new RedirectHandler("/simple"));
         GET("/", new RedirectHandler("/crud"));
 
-        GET("/simple", (routeContext) -> {
+        GET("/simple", routeContext -> {
             pageAccessTime = System.currentTimeMillis();
             routeContext.render("simple");
         });
 
-        GET("/seconds", (routeContext) -> {
+        GET("/seconds", routeContext -> {
             long seconds = (System.currentTimeMillis() - pageAccessTime) / 1000;
             routeContext.getResponse().send("You have been on this page for {} seconds...", seconds);
         });
 
-        POST("/increment", (routeContext) -> {
+        POST("/increment", routeContext -> {
             increment++;
             routeContext.getResponse().send("Click Me! ({})", increment);
         });
 
-        GET("/crud", (routeContext) -> {
+        GET("/crud", routeContext -> {
             routeContext.setLocal("contacts", contactService.getContacts());
             routeContext.render("crud");
         });
 
-        GET("/contact/{id}", (routeContext) -> {
+        GET("/contact/{id}", routeContext -> {
             int id = routeContext.getParameter("id").toInt(0);
             Contact contact = (id > 0) ? contactService.getContact(id) : new Contact();
             routeContext.setLocal("contact", contact);
@@ -82,7 +82,7 @@ public class AjaxApplication extends Application {
             routeContext.render("view/contact");
         });
 
-        POST("/contact", (routeContext) -> {
+        POST("/contact", routeContext -> {
             Contact contact = routeContext.createEntityFromParameters(Contact.class);
             contactService.save(contact);
 
@@ -91,7 +91,7 @@ public class AjaxApplication extends Application {
             routeContext.render("view/contacts");
         }).named("postContact");
 
-        DELETE("/contact/{id}", (routeContext) -> {
+        DELETE("/contact/{id}", routeContext -> {
             int id = routeContext.getParameter("id").toInt(0);
             contactService.delete(id);
 

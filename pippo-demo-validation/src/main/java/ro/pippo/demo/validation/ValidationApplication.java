@@ -38,13 +38,13 @@ public class ValidationApplication extends Application {
         addPublicResourceRoute();
         addWebjarsResourceRoute();
 
-        GET("/", (routeContext) -> {
+        GET("/", routeContext -> {
             Contact contact = new Contact();
             routeContext.setLocal("contact", contact);
             routeContext.render("contact");
         });
 
-        POST("/", (routeContext) -> {
+        POST("/", routeContext -> {
             Contact contact = routeContext.createEntityFromParameters(Contact.class);
 
             // check for validation
