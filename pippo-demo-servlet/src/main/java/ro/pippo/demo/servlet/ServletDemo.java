@@ -26,13 +26,14 @@ public class ServletDemo {
 //        Pippo pippo = new Pippo();
         Pippo pippo = new Pippo(new ServletApplication());
 
-        // set pippo filter path and add FilterAppender (it's a ServletContextListener)
+        // set pippo filter path and add some listeners
         pippo.getServer()
             .setPippoFilterPath("/app/*")
-            .addListener(FilterAppender.class);
+            .addListener(FilterAppender.class)
+            .addListener(ServletListener.class);
 
         // add route
-//        GET("/", routeContext -> routeContext.send("Hello from Pippo route!"));
+//        pippo.GET("/", routeContext -> routeContext.send("Hello from Pippo route!"));
 
         pippo.start();
     }
