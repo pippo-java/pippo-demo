@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 the original author or authors.
+ * Copyright (C) 2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,28 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ro.pippo.demo.weld;
+package ro.pippo.demo.controller;
 
-import javax.inject.Inject;
+import ro.pippo.controller.Interceptor;
 
-import ro.pippo.controller.Controller;
-import ro.pippo.controller.GET;
-import ro.pippo.controller.Path;
-import ro.pippo.demo.common.ContactService;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * @author Decebal Suiu
  */
-@Path
-public class ContactsController extends Controller {
-
-    @Inject
-    private ContactService contactService;
-
-    @GET
-    public void index() {
-        getResponse().bind("contacts", contactService.getContacts());
-        getResponse().render("contacts");
-    }
-
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.TYPE, ElementType.METHOD})
+@Interceptor(LoggingHandler.class)
+public @interface Logging {
 }

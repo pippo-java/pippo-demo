@@ -18,8 +18,11 @@ package ro.pippo.demo.crudko;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ro.pippo.controller.Controller;
-import ro.pippo.controller.Form;
-import ro.pippo.core.Param;
+import ro.pippo.controller.DELETE;
+import ro.pippo.controller.GET;
+import ro.pippo.controller.POST;
+import ro.pippo.controller.Path;
+import ro.pippo.controller.extractor.Param;
 import ro.pippo.demo.common.Contact;
 import ro.pippo.demo.common.ContactService;
 import ro.pippo.metrics.Metered;
@@ -33,6 +36,7 @@ import ro.pippo.metrics.Metered;
  *
  * @author James Moger
  */
+@Path("/api/contacts")
 public class CrudKoApiController extends Controller {
 
     private static final Logger log = LoggerFactory.getLogger(CrudKoApiController.class);
@@ -41,21 +45,24 @@ public class CrudKoApiController extends Controller {
         return ((CrudKoApplication) getApplication()).getContactService();
     }
 
+    @GET
     @Metered("api.contacts.get")
     public void getContacts() {
         getResponse().xml().contentType(getRequest()).send(getContactService().getContacts());
         log.info("Retrieved all contacts");
     }
 
-    @Metered("api.contact.get")
-    public void getContact(@Param("id") int id) {
+    @GET("/{id: [0-9]+}")
+    @Metered("api.contacts.get")
+    public void getContact(@Param int id) {
         Contact contact = (id > 0) ? getContactService().getContact(id) : new Contact();
         getResponse().xml().contentType(getRequest()).send(contact);
         log.info("Retrieved contact #{} '{}'", contact.getId(), contact.getName());
     }
 
-    @Metered("api.contact.delete")
-    public void deleteContact(@Param("id") int id) {
+    @DELETE("/{id: [0-9]+}")
+    @Metered("api.contacts.delete")
+    public void deleteContact(@Param int id) {
         if (id <= 0) {
             getResponse().badRequest();
         } else {
@@ -70,8 +77,10 @@ public class CrudKoApiController extends Controller {
         }
     }
 
-    @Metered("api.contact.post")
-    public void saveContact(@Form Contact contact) {
+    @POST
+    @Metered("api.contacts.post")
+    // TODO
+    public void saveContact(/*@Form*/ Contact contact) {
         getContactService().save(contact);
         getResponse().ok();
         log.info("Saved contact #{} '{}'", contact.getId(), contact.getName());

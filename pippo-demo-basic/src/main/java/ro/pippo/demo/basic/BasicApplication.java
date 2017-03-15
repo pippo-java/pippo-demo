@@ -147,7 +147,7 @@ public class BasicApplication extends Application {
 
         // throw a programmatically exception
         GET("/exception", routeContext -> {
-            throw new RuntimeException("My programatically error");
+            throw new RuntimeException("My programmatically error");
         });
 
         // throw an exception that gets handled by a registered ExceptionHandler

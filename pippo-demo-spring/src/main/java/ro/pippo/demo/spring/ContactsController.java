@@ -18,6 +18,8 @@ package ro.pippo.demo.spring;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import ro.pippo.controller.Controller;
+import ro.pippo.controller.GET;
+import ro.pippo.controller.Path;
 import ro.pippo.demo.common.ContactService;
 
 import javax.inject.Inject;
@@ -25,6 +27,7 @@ import javax.inject.Inject;
 /**
  * @author Decebal Suiu
  */
+@Path
 public class ContactsController extends Controller {
 
 //    @Inject
@@ -34,6 +37,7 @@ public class ContactsController extends Controller {
     @Value("${message}")
     private String message;
 
+    @GET
     public void index() {
         System.out.println("contactService = " + contactService);
         System.out.println("message = " + message);

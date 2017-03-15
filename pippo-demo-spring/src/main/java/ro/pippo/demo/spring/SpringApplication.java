@@ -39,7 +39,7 @@ public class SpringApplication extends ControllerApplication {
         addWebjarsResourceRoute();
 
         // add controller
-        GET("/", ContactsController.class, "index");
+        addControllers(ContactsController.class);
     }
 
 }

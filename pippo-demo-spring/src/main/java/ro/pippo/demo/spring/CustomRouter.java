@@ -15,13 +15,13 @@
  */
 package ro.pippo.demo.spring;
 
-import ro.pippo.controller.DefaultControllerRouter;
+import ro.pippo.core.route.DefaultRouter;
 import ro.pippo.core.route.Route;
 
 /**
  * @author Decebal Suiu
  */
-public class CustomRouter extends DefaultControllerRouter {
+public class CustomRouter extends DefaultRouter {
 
     public CustomRouter() {
         super();

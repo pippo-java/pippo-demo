@@ -68,7 +68,7 @@ function ViewModel() {
     self.saveContact = function(contact) {
         $.ajax({
             type: "POST",
-            url: "api/contact",
+            url: "api/contacts",
             data: {
                 id: contact.id,
                 name: contact.name,
@@ -90,7 +90,7 @@ function ViewModel() {
             if (result) {
                 $.ajax({
                     type: "DELETE",
-                    url: 'api/contact/' + contact.id,
+                    url: 'api/contacts/' + contact.id,
                     success: function () {
                         self.initContacts();
                     },

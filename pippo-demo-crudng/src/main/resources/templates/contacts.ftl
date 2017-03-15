@@ -6,7 +6,7 @@
 
     <div ng-controller="ContactsCtrl">
         <div class="buttons pull-right">
-            <a id="addContactButton" type="button" class="btn btn-primary" href="contact/0"/"><i class="fa fa-plus"></i> Add Contact</a>
+            <a id="addContactButton" type="button" class="btn btn-primary" href="contacts/0"/"><i class="fa fa-plus"></i> Add Contact</a>
         </div>
 
         <table id="contacts" class="table table-striped table-bordered table-hover">
@@ -26,7 +26,7 @@
                     <td>{{contact.address}}</td>
                     <td style="text-align: right;">
                         <div class="btn-group btn-group-xs">
-                            <a class="btn btn-default" href="contact/{{contact.id}}"><i class="fa fa-pencil"></i> Edit</a>
+                            <a class="btn btn-default" href="contacts/{{contact.id}}"><i class="fa fa-pencil"></i> Edit</a>
                             <button class="btn btn-default" ng-click="deleteContact(contact.id)"><i class="fa fa-trash"></i> Delete</button>
                         </div>
                     </td>

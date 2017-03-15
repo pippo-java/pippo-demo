@@ -16,15 +16,15 @@
 package ro.pippo.demo.template;
 
 import ro.pippo.core.Languages;
+import ro.pippo.core.route.LanguageHandler;
 import ro.pippo.core.route.RouteContext;
-import ro.pippo.core.route.RequestLanguageFilter;
 
 /**
  * Binds the available languages to the response.
  *
  * @author James Moger
  */
-public class LanguageFilter extends RequestLanguageFilter {
+public class LanguageFilter extends LanguageHandler {
 
     public LanguageFilter(Languages languages, boolean enableQueryParameter, boolean setCookie) {
         super(languages, enableQueryParameter, setCookie);

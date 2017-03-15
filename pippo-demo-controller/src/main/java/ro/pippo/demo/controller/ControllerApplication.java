@@ -15,23 +15,51 @@
  */
 package ro.pippo.demo.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import ro.pippo.controller.SingletonControllerFactory;
+import ro.pippo.core.route.RouteContext;
+import ro.pippo.core.route.RouteHandler;
+import ro.pippo.metrics.Counted;
+import ro.pippo.metrics.Timed;
+
 /**
  * @author Decebal Suiu
  */
 public class ControllerApplication extends ro.pippo.controller.ControllerApplication {
 
+    private static final Logger log = LoggerFactory.getLogger(ControllerApplication.class);
+
     @Override
     protected void onInit() {
+//        setControllerFactory(new SingletonControllerFactory());
+
         // add routes for static content
         addPublicResourceRoute();
         addWebjarsResourceRoute();
 
-        GET("/", ContactsController.class, "index");
-        GET("/contact/{id}", ContactsController.class, "uriFor");
+        // audit filter
+        ALL("/(?!webjars).*", routeContext -> {
+            log.debug("Request for {} '{}'", routeContext.getRequestMethod(), routeContext.getRequestUri());
+            routeContext.next();
+        });
 
-        GET("/collections", CollectionsController.class, "index");
-        PUT("/collections", CollectionsController.class, "update");
-        POST("/collections", CollectionsController.class, "post");
+        // add route
+        GET("/", new RouteHandler() {
+
+            @Timed
+            @Counted
+            @Override
+            public void handle(RouteContext routeContext) {
+                routeContext.send("Hello");
+            }
+
+        });
+
+        // add controllers
+        addControllers(CollectionsController.class);
+        addControllers(ContactsController.class);
+//        addControllers(new ContactsController());
     }
 
 }

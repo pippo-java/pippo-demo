@@ -16,13 +16,17 @@
 package ro.pippo.demo.spring;
 
 import ro.pippo.controller.Controller;
+import ro.pippo.controller.GET;
+import ro.pippo.controller.Path;
 import ro.pippo.demo.common.ContactService;
 
 /**
  * @author Decebal Suiu
  */
+@Path
 public class ContactsController2 extends Controller {
 
+    @GET
     public void index() {
         SpringApplication2 application = getApplication();
         ContactService contactService = application.getContactService();

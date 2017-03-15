@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 the original author or authors.
+ * Copyright (C) 2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,28 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ro.pippo.demo.weld;
+package ro.pippo.demo.controller;
 
-import javax.inject.Inject;
-
-import ro.pippo.controller.Controller;
-import ro.pippo.controller.GET;
-import ro.pippo.controller.Path;
-import ro.pippo.demo.common.ContactService;
+import ro.pippo.core.route.Route;
+import ro.pippo.core.route.RouteContext;
+import ro.pippo.core.route.RouteHandler;
 
 /**
  * @author Decebal Suiu
  */
-@Path
-public class ContactsController extends Controller {
+public class LoggingHandler implements RouteHandler {
 
-    @Inject
-    private ContactService contactService;
-
-    @GET
-    public void index() {
-        getResponse().bind("contacts", contactService.getContacts());
-        getResponse().render("contacts");
+    @Override
+    public void handle(RouteContext routeContext) {
+        System.out.println("LoggingHandler.handle");
+        Route route = routeContext.getRoute();
+        System.out.println("route = " + route);
+        routeContext.next();
     }
 
 }

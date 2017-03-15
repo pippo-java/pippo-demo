@@ -15,9 +15,14 @@
  */
 package ro.pippo.demo.controller;
 
-import ro.pippo.controller.Body;
 import ro.pippo.controller.Controller;
-import ro.pippo.core.Param;
+import ro.pippo.controller.GET;
+import ro.pippo.controller.POST;
+import ro.pippo.controller.PUT;
+import ro.pippo.controller.Path;
+import ro.pippo.controller.Produces;
+import ro.pippo.controller.extractor.Body;
+import ro.pippo.controller.extractor.Param;
 
 import java.util.Arrays;
 import java.util.List;
@@ -27,8 +32,10 @@ import java.util.TreeSet;
 /**
  * @author James Moger
  */
+@Path("/collections")
 public class CollectionsController extends Controller {
 
+    @GET
     public void index() {
         getResponse()
             .bind("mySet", Arrays.asList(2, 2, 4, 4, 6, 6, 8, 8))
@@ -37,7 +44,9 @@ public class CollectionsController extends Controller {
             .render("collections");
     }
 
-    public void update(@Param("mySet") Set<Integer> mySet,
+    @PUT
+    @Produces(Produces.TEXT)
+    public String update(@Param("mySet") Set<Integer> mySet,
                        @Param("myList") List<Integer> myList,
                        @Param("myTreeSet") TreeSet<String> treeSet) {
 
@@ -45,13 +54,17 @@ public class CollectionsController extends Controller {
         sb.append("mySet=").append(mySet.toString()).append('\n');
         sb.append("myList=").append(myList.toString()).append('\n');
         sb.append("myTreeSet=").append(treeSet.toString()).append('\n');
-        getResponse().text().send(sb.toString());
+
+        return sb.toString();
     }
 
-    public void post(@Body List<String> desserts) {
+    @POST
+    @Produces(Produces.TEXT)
+    public String post(@Body List<String> desserts) {
         StringBuilder sb = new StringBuilder();
         sb.append("desserts=").append(desserts.toString()).append('\n');
-        getResponse().text().send(sb.toString());
+
+        return sb.toString();
     }
 
 }

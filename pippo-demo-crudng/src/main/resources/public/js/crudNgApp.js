@@ -47,7 +47,7 @@ crudNgApp.controller("ContactsCtrl", [ '$scope', '$http', '$location',
 			$scope.deleteContact = function(id) {
 				$http({
 					method : 'DELETE',
-					url : baseUrl + 'api/contact/' + id
+					url : baseUrl + 'api/contacts/' + id
 				}).success(function(data, status, headers, config) {
 					// redirect on success
 					$window.location.href = baseUrl;
@@ -79,7 +79,7 @@ crudNgApp.controller("ContactCtrl", [ '$scope', '$http', '$location',
 			//
 			$http({
 				method : 'GET',
-				url : baseUrl + 'api/contact/' + id
+				url : baseUrl + 'api/contacts/' + id
 			}).success(function(data, status, headers, config) {
 				// update the ng-models on success
 				$scope.id = data.id;
@@ -112,7 +112,7 @@ crudNgApp.controller("ContactCtrl", [ '$scope', '$http', '$location',
 
 					$http({
 						method : 'POST',
-						url : baseUrl + 'api/contact',
+						url : baseUrl + 'api/contacts',
 						data : dataObj
 					}).success(function(data, status, headers, config) {
 						// redirect on success

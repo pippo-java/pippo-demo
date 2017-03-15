@@ -16,41 +16,77 @@
 package ro.pippo.demo.controller;
 
 import ro.pippo.controller.Controller;
-import ro.pippo.controller.ControllerRouter;
-import ro.pippo.core.Param;
+import ro.pippo.controller.GET;
+import ro.pippo.controller.Named;
+import ro.pippo.controller.NoCache;
+import ro.pippo.controller.Path;
+import ro.pippo.controller.Produces;
+import ro.pippo.controller.extractor.Header;
+import ro.pippo.controller.extractor.Param;
+import ro.pippo.controller.extractor.Session;
+import ro.pippo.demo.common.Contact;
 import ro.pippo.demo.common.ContactService;
 import ro.pippo.demo.common.InMemoryContactService;
 import ro.pippo.metrics.Metered;
 import ro.pippo.metrics.Timed;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
  * @author Decebal Suiu
  */
+@Path("/contacts")
+@Logging
 public class ContactsController extends Controller {
 
     private ContactService contactService;
 
     public ContactsController() {
+        System.out.println("##### ContactsController #####");
         contactService = new InMemoryContactService();
     }
 
+    @GET
+    @Named("all")
+//    @Produces(Produces.HTML)
     @Metered
+    @Logging
     public void index() {
-        getResponse().bind("contacts", contactService.getContacts()).render("contacts");
+        // inject "user" attribute in session
+        getRouteContext().setSession("user", "decebal");
+
+        getResponse()
+            .bind("contacts", contactService.getContacts())
+            .render("contacts");
     }
 
+    @GET("/{id: [0-9]+}")
+    @Named("uriFor")
+    @Produces(Produces.TEXT)
     @Timed
-    public void uriFor(@Param("id") int id) {
+    public String uriFor(@Param int id, @Param String action, @Header String host, @Session String user) {
+        System.out.println("id = " + id);
+        System.out.println("action = " + action);
+        System.out.println("host = " + host);
+        System.out.println("user = " + user);
+
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("id", id);
-        parameters.put("action", "new");
-        ControllerRouter router = (ControllerRouter) getApplication().getRouter();
-        String uri = router.uriFor(ContactsController.class, "uriFor", parameters);
+        parameters.put("action", action);
 
-        getResponse().send("id = " + id + "; uri = " + uri);
+        String uri = getApplication().getRouter().uriFor("uriFor", parameters);
+
+        return "id = " + id + "; uri = " + uri;
+    }
+
+    @GET("/json")
+    @Named("json")
+    @Produces(Produces.JSON)
+    @NoCache
+    public List<Contact> json() {
+        return contactService.getContacts();
     }
 
 }

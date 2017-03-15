@@ -34,7 +34,8 @@ public class GuiceApplication2 extends ControllerApplication {
         addPublicResourceRoute();
         addWebjarsResourceRoute();
 
-        GET("/", ContactsController2.class, "index");
+        // add controller
+        addControllers(ContactsController2.class);
     }
 
     public ContactService getContactService() {

@@ -61,10 +61,7 @@ public class CrudKoApplication extends ControllerApplication {
         /*
          * RESTful API
          */
-        GET("/api/contacts", CrudKoApiController.class, "getContacts");
-        GET("/api/contact/{id}", CrudKoApiController.class, "getContact");
-        DELETE("/api/contact/{id}", CrudKoApiController.class, "deleteContact");
-        POST("/api/contact", CrudKoApiController.class, "saveContact");
+        addControllers(CrudKoApiController.class);
     }
 
 }

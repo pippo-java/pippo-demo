@@ -49,14 +49,9 @@ public class CrudNgApplication extends ControllerApplication {
         /*
          *  audit filter
          */
-        ALL("/.*", new RouteHandler() {
-
-            @Override
-            public void handle(RouteContext routeContext) {
-                log.info("Request for {} '{}'", routeContext.getRequestMethod(), routeContext.getRequestUri());
-                routeContext.next();
-            }
-
+        ALL("/.*", routeContext -> {
+            log.info("Request for {} '{}'", routeContext.getRequestMethod(), routeContext.getRequestUri());
+            routeContext.next();
         });
 
         /*
@@ -76,14 +71,7 @@ public class CrudNgApplication extends ControllerApplication {
 
         });
 
-        GET("/login", new RouteHandler() {
-
-            @Override
-            public void handle(RouteContext routeContext) {
-                routeContext.render("login");
-            }
-
-        });
+        GET("/login", routeContext -> routeContext.render("login"));
 
         POST("/login", new RouteHandler() {
 
@@ -123,10 +111,7 @@ public class CrudNgApplication extends ControllerApplication {
         /*
          * RESTful API
          */
-        GET("/api/contacts", CrudNgApiController.class, "getContacts");
-        GET("/api/contact/{id}", CrudNgApiController.class, "getContact");
-        DELETE("/api/contact/{id}", CrudNgApiController.class, "deleteContact");
-        POST("/api/contact", CrudNgApiController.class, "saveContact");
+        addControllers(CrudNgApiController.class);
     }
 
 }
