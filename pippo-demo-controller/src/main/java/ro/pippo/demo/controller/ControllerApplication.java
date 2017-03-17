@@ -32,6 +32,7 @@ public class ControllerApplication extends ro.pippo.controller.ControllerApplica
 
     @Override
     protected void onInit() {
+        // if you wish a singleton for each controller
 //        setControllerFactory(new SingletonControllerFactory());
 
         // add routes for static content
@@ -60,6 +61,7 @@ public class ControllerApplication extends ro.pippo.controller.ControllerApplica
         addControllers(CollectionsController.class);
         addControllers(ContactsController.class);
 //        addControllers(new ContactsController());
+        addControllers(FilesController.class);
     }
 
 }
