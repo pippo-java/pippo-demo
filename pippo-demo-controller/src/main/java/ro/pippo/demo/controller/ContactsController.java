@@ -44,12 +44,11 @@ public class ContactsController extends Controller {
     private ContactService contactService;
 
     public ContactsController() {
-        System.out.println("##### ContactsController #####");
         contactService = new InMemoryContactService();
     }
 
     @GET
-    @Named("all")
+    @Named("index")
 //    @Produces(Produces.HTML)
     @Metered
     @Logging
@@ -62,31 +61,36 @@ public class ContactsController extends Controller {
             .render("contacts");
     }
 
-    @GET("/{id: [0-9]+}")
+    @GET("/uriFor/{id: [0-9]+}")
     @Named("uriFor")
     @Produces(Produces.TEXT)
     @Timed
-    public String uriFor(@Param int id, @Param String action, @Header String host, @Session String user) {
+    public String uriFor(@Param int id, @Header String host, @Session String user) {
         System.out.println("id = " + id);
-        System.out.println("action = " + action);
         System.out.println("host = " + host);
         System.out.println("user = " + user);
 
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("id", id);
-        parameters.put("action", action);
 
-        String uri = getApplication().getRouter().uriFor("uriFor", parameters);
+        String uri = getApplication().getRouter().uriFor("api.get", parameters);
 
         return "id = " + id + "; uri = " + uri;
     }
 
-    @GET("/json")
-    @Named("json")
+    @GET("/api")
+    @Named("api.getAll")
     @Produces(Produces.JSON)
     @NoCache
-    public List<Contact> json() {
+    public List<Contact> getAll() {
         return contactService.getContacts();
+    }
+
+    @GET("/api/{id: [0-9]+}")
+    @Named("api.get")
+    @Produces(Produces.JSON)
+    public Contact get(@Param int id) {
+        return contactService.getContact(id);
     }
 
 }
