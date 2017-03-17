@@ -31,8 +31,8 @@ import java.io.File;
 public class FilesController extends Controller {
 
     @GET
-    public String index() {
-        return getRouteContext().renderToString("files");
+    public void index() {
+        getRouteContext().render("files");
     }
 
     @GET("/download")
