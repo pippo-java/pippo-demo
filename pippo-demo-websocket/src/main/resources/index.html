@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Echo WebSocket</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+    </head>
+
+    <body>
+         <input id="message-box" autofocus onkeypress="send(event)"/>
+
+        <!-- server responses get written here -->
+        <div id="messages"></div>
+
+        <!-- script to utilise the WebSocket -->
+        <script type="text/javascript">
+
+            var messages = document.getElementById("messages");
+
+            // create a new instance of the webSocket
+            var webSocket = new WebSocket("ws://localhost:8338/ws/echo");
+
+            webSocket.onopen = function() {
+                writeResponse("Connection opened!");
+            };
+
+            webSocket.onmessage = function(evt) {
+                writeResponse(evt.data);
+            };
+
+            webSocket.onclose = function() {
+                writeResponse("Connection closed!");
+            };
+
+            /**
+             * Sends the value of the text input to the server
+             */
+            function send(evt) {
+                // check for ENTER key pressed
+                if (evt.keyCode != 13) {
+                    return;
+                }
+
+                var messageBox = document.getElementById("message-box");
+
+                // read the text from the message box and send it to server via websocket
+                webSocket.send(messageBox.value);
+
+                // clear the message box
+                messageBox.value = "";
+            }
+
+            function writeResponse(text) {
+                messages.innerHTML += "<br/>" + text;
+            }
+
+        </script>
+    </body>
+</html>
