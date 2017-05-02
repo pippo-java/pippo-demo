@@ -20,6 +20,8 @@ import org.eclipse.jetty.websocket.api.UpgradeRequest;
 import ro.pippo.core.Application;
 import ro.pippo.core.util.IoUtils;
 import ro.pippo.core.websocket.WebSocketConnection;
+import ro.pippo.core.websocket.WebSocketContext;
+import ro.pippo.core.websocket.WebSocketHandler;
 import ro.pippo.jetty.websocket.JettyWebSocketConnection;
 
 import java.io.IOException;
@@ -59,7 +61,7 @@ public class WebSocketApplication extends Application {
             }
 
             @Override
-            public void onMessage(WebSocketContext webSocketContext, byte[] data, int offset, int length) {
+            public void onMessage(WebSocketContext webSocketContext, byte[] message) {
                 System.out.println("TestWebSocket.onMessage");
             }
 
