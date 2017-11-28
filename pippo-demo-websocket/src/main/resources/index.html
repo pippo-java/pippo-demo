@@ -19,6 +19,7 @@
 
             // create a new instance of the webSocket
             var webSocket = new WebSocket("ws://localhost:8338/ws/echo");
+//            var webSocket = new WebSocket("ws://localhost:8338/ws/chat/12");
 
             webSocket.onopen = function() {
                 writeResponse("Connection opened!");
@@ -37,7 +38,7 @@
              */
             function send(evt) {
                 // check for ENTER key pressed
-                if (evt.keyCode != 13) {
+                if (evt.keyCode !== 13) {
                     return;
                 }
 

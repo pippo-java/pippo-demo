@@ -97,7 +97,7 @@ public class WebSocketApplication extends Application {
             }
         });
 
-        addWebSocket("/ws-debug", (webSocketContext, message) -> {
+        addWebSocket("/ws/debug", (webSocketContext, message) -> {
             WebSocketConnection connection = webSocketContext.getConnection();
             // cast WebSocketConnection to JettyWebSocketConnection
             JettyWebSocketConnection jettyConnection = (JettyWebSocketConnection) connection;
@@ -112,6 +112,11 @@ public class WebSocketApplication extends Application {
 //            upgradeRequest.getParameterMap();
             String query = upgradeRequest.getQueryString();
             System.out.println("query = " + query);
+        });
+
+        addWebSocket("/ws/chat/{roomId}", (webSocketContext, message) -> {
+            String roomId = webSocketContext.getPathParameter("roomId").toString();
+            System.out.println("roomId = " + roomId);
         });
     }
 
