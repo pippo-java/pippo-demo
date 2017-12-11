@@ -52,6 +52,7 @@ public class Pac4jApplication extends Application {
     protected void onInit() {
         getRouter().ignorePaths("/favicon.ico");
 
+        // other variant is to use SettingsConfigFactory and put all PAC4J's Config in application.properties
         Config config = new DemoConfigFactory(JWT_SALT).build();
 
         // security (before) filters
