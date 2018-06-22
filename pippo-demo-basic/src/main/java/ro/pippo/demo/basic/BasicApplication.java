@@ -157,7 +157,7 @@ public class BasicApplication extends Application {
 
         // use a finally filter (invoked even when exceptions were raised in previous routes)
         // test with route "/" and "/exception"
-        ALL("/.*", routeContext -> log.info(">>> Cleanup here"))
+        ANY("/.*", routeContext -> log.info(">>> Cleanup here"))
             .named("cleanup filter")
             .runAsFinally();
 

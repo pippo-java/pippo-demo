@@ -40,7 +40,7 @@ public class ControllerApplication extends ro.pippo.controller.ControllerApplica
         addWebjarsResourceRoute();
 
         // audit filter
-        ALL("/(?!webjars).*", routeContext -> {
+        ANY("/(?!webjars).*", routeContext -> {
             log.debug("Request for {} '{}'", routeContext.getRequestMethod(), routeContext.getRequestUri());
             routeContext.next();
         });

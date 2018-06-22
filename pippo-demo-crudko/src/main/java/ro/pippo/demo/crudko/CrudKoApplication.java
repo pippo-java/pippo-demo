@@ -45,7 +45,7 @@ public class CrudKoApplication extends ControllerApplication {
          * Register a CSRF token generator and validator.
          * This creates a session for all matching requests.
          */
-        ALL("/contacts", new CSRFHandler()).named("CSRF handler");
+        ANY("/contacts", new CSRFHandler()).named("CSRF handler");
 
         /*
          * Redirect "/" to "/contacts"

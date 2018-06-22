@@ -47,7 +47,7 @@ public class CrudApplication extends Application {
         addWebjarsResourceRoute();
 
         // audit filter
-        ALL("/.*", routeContext -> {
+        ANY("/.*", routeContext -> {
             log.info("Request for {} '{}'", routeContext.getRequestMethod(), routeContext.getRequestUri());
             routeContext.next();
         });
@@ -56,7 +56,7 @@ public class CrudApplication extends Application {
          * Register a CSRF token generator and validator.
          * This creates a session for all matching requests.
          */
-        ALL("/contact.*", new CSRFHandler()).named("CSRF handler");
+        ANY("/contact.*", new CSRFHandler()).named("CSRF handler");
 
         // authentication filter
         GET("/contact.*", routeContext -> {

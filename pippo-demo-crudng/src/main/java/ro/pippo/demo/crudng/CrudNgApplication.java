@@ -49,7 +49,7 @@ public class CrudNgApplication extends ControllerApplication {
         /*
          *  audit filter
          */
-        ALL("/.*", routeContext -> {
+        ANY("/.*", routeContext -> {
             log.info("Request for {} '{}'", routeContext.getRequestMethod(), routeContext.getRequestUri());
             routeContext.next();
         });
