@@ -15,7 +15,7 @@
     <description>Jersey demo application</description>
 
     <properties>
-        <jersey.version>2.24</jersey.version>
+        <jersey.version>2.25</jersey.version>
 
         <junit.version>4.12</junit.version>
         <mockito.version>2.0.28-beta</mockito.version>

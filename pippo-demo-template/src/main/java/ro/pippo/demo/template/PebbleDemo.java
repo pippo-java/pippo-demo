@@ -16,8 +16,11 @@
 package ro.pippo.demo.template;
 
 import com.mitchellbosecke.pebble.PebbleEngine;
+import com.mitchellbosecke.pebble.error.PebbleException;
 import com.mitchellbosecke.pebble.extension.AbstractExtension;
 import com.mitchellbosecke.pebble.extension.Filter;
+import com.mitchellbosecke.pebble.template.EvaluationContext;
+import com.mitchellbosecke.pebble.template.PebbleTemplate;
 import ro.pippo.core.Application;
 import ro.pippo.core.Pippo;
 import ro.pippo.pebble.PebbleTemplateEngine;
@@ -65,7 +68,7 @@ public class PebbleDemo {
         }
 
         @Override
-        public Object apply(Object input, Map<String, Object> args){
+        public Object apply(Object input, Map<String, Object> args, PebbleTemplate self, EvaluationContext context, int lineNumber) throws PebbleException {
             return (input != null) ? ((String) input).toUpperCase() : null;
         }
 
